@@ -31,6 +31,11 @@ type JsonStructure struct {
 	RemoteAddr string `json:"remote_addr"`
 }
 
+//TODO create method for unparsing incoming json
+func incomingDeviceJson() string{
+	return ""
+}
+
 func main() {
 
 	ln, err := net.Listen("tcp", ":7440")
