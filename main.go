@@ -20,6 +20,17 @@ import (
 	_ "github.com/DrmagicE/gmqtt/topicalias/fifo"
 )
 
+type JsonStructure struct {
+	TopicName string `json:"topic"`
+	Qos string `json:"qos"`
+	RetainHandling string `json:"retain_handling"`
+	RetainAsPublished string `json:"retain_as_published"`
+	NoLocal bool `json:"no_local"`
+	Id int `json:"id"`
+	ClientId string `json:"client_id"`
+	RemoteAddr string `json:"remote_addr"`
+}
+
 func main() {
 
 	ln, err := net.Listen("tcp", ":7440")
