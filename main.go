@@ -37,7 +37,7 @@ func incomingDeviceJson() string{
 }
 
 func main() {
-
+	var testingLocalVariable string
 	ln, err := net.Listen("tcp", ":7440")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -55,9 +55,6 @@ func main() {
 	err = srv.Init(server.WithHook(server.Hooks{
 		OnConnected: func(ctx context.Context, client server.Client) {
 			// add subscription for a client when it is connected
-			fmt.Println("==================")
-			fmt.Println("L is: " , zap.String("client_id", client.ClientOptions().ClientID))
-			fmt.Println("==================")
 			subService.Subscribe(client.ClientOptions().ClientID, &gmqtt.Subscription{
 				TopicFilter: "topic",
 				QoS:         packets.Qos0,
@@ -90,6 +87,7 @@ func main() {
 			// iterate all topics
 			subService.Iterate(func(clientID string, sub *gmqtt.Subscription) bool {
 				fmt.Printf("client id: %s, topic: %v \n", clientID, sub.TopicFilter)
+				testingLocalVariable = clientID
 				return true
 			}, subscription.IterationOptions{
 				Type: subscription.TypeAll,
@@ -100,9 +98,10 @@ func main() {
 				Payload: []byte("abc"),
 				QoS:     packets.Qos1,
 			})
-
+			fmt.Println("==================")
+			fmt.Println("L is: " , zap.String("client_id",":"))
+			fmt.Println("==================")
 		}
-
 	}()
 
 	go func() {
@@ -115,5 +114,4 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 }
