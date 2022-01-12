@@ -51,17 +51,17 @@ func main() {
 		server.WithLogger(l),
 	)
 
-	fmt.Println("==================")
-	fmt.Println("L is: " , l)
-	fmt.Println("==================")
-
 	var subService server.SubscriptionService
 	err = srv.Init(server.WithHook(server.Hooks{
 		OnConnected: func(ctx context.Context, client server.Client) {
 			// add subscription for a client when it is connected
+			fmt.Println("==================")
+			fmt.Println("L is: " , zap.String("client_id", client.ClientOptions().ClientID))
+			fmt.Println("==================")
 			subService.Subscribe(client.ClientOptions().ClientID, &gmqtt.Subscription{
 				TopicFilter: "topic",
 				QoS:         packets.Qos0,
+
 			})
 		},
 	}))
