@@ -32,12 +32,22 @@ type JsonStructure struct {
 }
 
 //TODO create method for unparsing incoming json
-func incomingDeviceJson() string{
-	return ""
+func buildingSubscriptionJSON(client string, sub *gmqtt.Subscription) string{
+	s_json := "{"
+	s_json += string(34) + "topic" + string(34) + ":" + string(34)  + sub.TopicFilter + string(34)
+	s_json += ","
+	s_json += string(34) + "client_id" + string(34) + ":" + string(34) + client + string(34)
+	s_json += "}"
+	return s_json
 }
 
+//func buildClientJSON(client server.Client) string{
+//	s_json := string(34) + "client_id" + string(34) + ":" + string(34) + client.ClientOptions().ClientID + string(34)
+//	return s_json
+//}
+
+
 func main() {
-	var testingLocalVariable string
 	ln, err := net.Listen("tcp", ":7440")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -56,9 +66,12 @@ func main() {
 		OnConnected: func(ctx context.Context, client server.Client) {
 			// add subscription for a client when it is connected
 
-			fmt.Println("==================")
-			fmt.Println("L is: " , client.ConnectedAt())
-			fmt.Println("==================")
+			//var getString string
+			//getString = client.ClientOptions().ClientID
+
+			//fmt.Println("==================")
+			//fmt.Println("L is: " , getString)
+			//fmt.Println("==================")
 
 			subService.Subscribe(client.ClientOptions().ClientID, &gmqtt.Subscription{
 				TopicFilter: "topic",
@@ -92,7 +105,11 @@ func main() {
 			// iterate all topics
 			subService.Iterate(func(clientID string, sub *gmqtt.Subscription) bool {
 				fmt.Printf("client id: %s, topic: %v \n", clientID, sub.TopicFilter)
-				testingLocalVariable = clientID
+
+				fmt.Println("==================")
+				fmt.Println(buildingSubscriptionJSON(clientID , sub))
+				fmt.Println("==================")
+
 				return true
 			}, subscription.IterationOptions{
 				Type: subscription.TypeAll,
