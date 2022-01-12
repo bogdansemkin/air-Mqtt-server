@@ -56,8 +56,11 @@ func main() {
 		OnConnected: func(ctx context.Context, client server.Client) {
 			// add subscription for a client when it is connected
 
+			var getString string
+			getString = client.ClientOptions().ClientID
+
 			fmt.Println("==================")
-			fmt.Println("L is: " , client.ConnectedAt())
+			fmt.Println("L is: " , getString)
 			fmt.Println("==================")
 
 			subService.Subscribe(client.ClientOptions().ClientID, &gmqtt.Subscription{
