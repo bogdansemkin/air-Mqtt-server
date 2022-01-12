@@ -55,6 +55,11 @@ func main() {
 	err = srv.Init(server.WithHook(server.Hooks{
 		OnConnected: func(ctx context.Context, client server.Client) {
 			// add subscription for a client when it is connected
+
+			fmt.Println("==================")
+			fmt.Println("L is: " , client.ConnectedAt())
+			fmt.Println("==================")
+
 			subService.Subscribe(client.ClientOptions().ClientID, &gmqtt.Subscription{
 				TopicFilter: "topic",
 				QoS:         packets.Qos0,
@@ -98,9 +103,7 @@ func main() {
 				Payload: []byte("abc"),
 				QoS:     packets.Qos1,
 			})
-			fmt.Println("==================")
-			fmt.Println("L is: " , zap.String("client_id",":"))
-			fmt.Println("==================")
+
 		}
 	}()
 
