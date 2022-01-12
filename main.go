@@ -51,6 +51,10 @@ func main() {
 		server.WithLogger(l),
 	)
 
+	fmt.Println("==================")
+	fmt.Println("L is: " , l)
+	fmt.Println("==================")
+
 	var subService server.SubscriptionService
 	err = srv.Init(server.WithHook(server.Hooks{
 		OnConnected: func(ctx context.Context, client server.Client) {
