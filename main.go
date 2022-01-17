@@ -18,6 +18,7 @@ import (
 	"github.com/DrmagicE/gmqtt/pkg/packets"
 	"github.com/DrmagicE/gmqtt/server"
 	_ "github.com/DrmagicE/gmqtt/topicalias/fifo"
+	"github.com/eclipse/paho.mqtt.golang"
 )
 
 type JsonStructure struct {
@@ -39,6 +40,10 @@ func buildingSubscriptionJSON(client string, sub *gmqtt.Subscription) string{
 	s_json += string(34) + "client_id" + string(34) + ":" + string(34) + client + string(34)
 	s_json += "}"
 	return s_json
+}
+
+func getMessage(client mqtt.Client, msg mqtt.Message){
+	fmt.Printf("Message %s\n", msg.Payload())
 }
 
 //func buildClientJSON(client server.Client) string{
@@ -106,9 +111,9 @@ func main() {
 			subService.Iterate(func(clientID string, sub *gmqtt.Subscription) bool {
 				fmt.Printf("client id: %s, topic: %v \n", clientID, sub.TopicFilter)
 
-				fmt.Println("==================")
-				fmt.Println(buildingSubscriptionJSON(clientID , sub))
-				fmt.Println("==================")
+				//fmt.Println("==================")
+				//fmt.Println(buildingSubscriptionJSON(clientID , sub))
+				//fmt.Println("==================")
 
 				return true
 			}, subscription.IterationOptions{
