@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/DrmagicE/gmqtt v0.4.1
 	github.com/eclipse/paho.mqtt.golang v1.3.5
-	go.uber.org/zap v1.19.1
+	go.uber.org/zap v1.20.0
 )
 
 require (
